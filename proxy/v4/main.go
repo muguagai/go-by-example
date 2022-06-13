@@ -116,6 +116,7 @@ func connect(reader *bufio.Reader, conn net.Conn) (err error) {
 		return fmt.Errorf("not supported cmd:%v", ver)
 	}
 	addr := ""
+	//根据atyp的地址类型选择不同的方式获取addr，不支持IPV6
 	switch atyp {
 	case atypIPV4:
 		_, err = io.ReadFull(reader, buf)
@@ -123,6 +124,7 @@ func connect(reader *bufio.Reader, conn net.Conn) (err error) {
 			return fmt.Errorf("read atyp failed:%w", err)
 		}
 		addr = fmt.Sprintf("%d.%d.%d.%d", buf[0], buf[1], buf[2], buf[3])
+		fmt.Println("add=" + addr)
 	case atypeHOST:
 		hostSize, err := reader.ReadByte()
 		if err != nil {
@@ -134,6 +136,7 @@ func connect(reader *bufio.Reader, conn net.Conn) (err error) {
 			return fmt.Errorf("read host failed:%w", err)
 		}
 		addr = string(host)
+		fmt.Println("addr=" + addr)
 	case atypeIPV6:
 		return errors.New("IPv6: no supported yet")
 	default:

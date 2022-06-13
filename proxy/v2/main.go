@@ -51,7 +51,7 @@ func auth(reader *bufio.Reader, conn net.Conn) (err error) {
 	// METHODS: 对应NMETHODS，NMETHODS的值为多少，METHODS就有多少个字节。RFC预定义了一些值的含义，内容如下:
 	// X’00’ NO AUTHENTICATION REQUIRED
 	// X’02’ USERNAME/PASSWORD
-
+	//读取版本号
 	ver, err := reader.ReadByte()
 	if err != nil {
 		return fmt.Errorf("read ver failed:%w", err)
